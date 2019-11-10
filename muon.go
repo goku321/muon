@@ -278,8 +278,14 @@ func toJSValue(ctx JSContextRef, value reflect.Value) JSValueRef {
 	switch value.Kind() {
 	case reflect.Float64:
 		jsv = JSValueMakeNumber(ctx, value.Float())
+		if reflect.ValueOf(jsv).Kind() != reflect.Float64 {
+			err = errors.New("Unable to convert to Float type")
+		}
 	case reflect.Bool:
 		jsv = JSValueMakeBoolean(ctx, value.Bool())
+		if reflect.ValueOf(jsv).Kind() != reflect.Bool {
+			err = errors.New("Unable to convert to Bool type")
+		}
 	case reflect.String:
 		str := JSStringCreateWithUTF8CString(value.String())
 		jsv = JSValueMakeString(ctx, str)
